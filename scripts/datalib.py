@@ -21,6 +21,15 @@ class QuestionSet(dict):
         return sorted(self.values(), key=lambda q: q['qId'])
 
 
+def load_multi_data(split, dirnames):
+    """ load QuestionSet from across multiple directories """
+    data = QuestionSet()
+    for dirname in dirnames:
+        with open('%s/%s.json' % (dirname, split), 'r') as f:
+            data.add(json.load(f))
+    return data
+
+
 def save_json(data, f):
     """ save data in a given file as json, one line per data item """
     print('[', file=f)
