@@ -54,7 +54,7 @@ def concept_rels_match(mid, labels, sparql):
     # print(sparql_rel_query)
     sparql.setQuery(sparql_rel_query)
     results = sparql.query().convert()
-    return [r['rel']['value'] for r in results['results']['bindings']]
+    return [[r['rel']['value']] for r in results['results']['bindings']]
 
 
 def question_relpaths(q, sparql, N):
