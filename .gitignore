@@ -1,0 +1,7 @@
+.*
+*.pyc
+
+raw/
+full/
+tsv/
+train.json
