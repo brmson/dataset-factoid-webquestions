@@ -12,9 +12,12 @@
 
 from __future__ import print_function
 
+from collections import Counter
 from multiprocessing import Pool
+from operator import itemgetter
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sys
+import traceback
 import datalib
 
 
@@ -36,7 +39,6 @@ class QuestionRelPathFinder:
         self.sparql.setQuery(sparql_mid_query)
         results = self.sparql.query().convert()
         return [r['concept']['value'] for r in results['results']['bindings']][0]
-
 
     def concept_rels_match(self, mid, labels):
         """ list all relations of a given concept whose label or string value
@@ -65,14 +67,18 @@ class QuestionRelPathFinder:
         rels = [r['rel']['value'] for r in results['results']['bindings']]
         # PREFIX : <http://rdf.freebase.com/ns/>
         rel_labels = [rel.replace('http://rdf.freebase.com/ns/', ':') for rel in rels]
-        return [[rl] for rl in rel_labels]
-
+        rl_counter = Counter(rel_labels)
+        rl_set = sorted([(rl, c) for rl, c in rl_counter.items()], key=itemgetter(1), reverse=True)
+        return rl_set
 
     def __call__(self, q):
-        mid = self.get_mid(q['freebaseKey'])
-        print(q['freebaseKey'], mid, file=sys.stderr)
-        relpaths = self.concept_rels_match(mid, set(q['answers']))
-        print(q['freebaseKey'], '    ', relpaths, file=sys.stderr)
+        try:
+            mid = self.get_mid(q['freebaseKey'])
+            print(q['freebaseKey'], mid, file=sys.stderr)
+            relpaths = self.concept_rels_match(mid, set(q['answers']))
+            print(q['freebaseKey'], '    ', relpaths, file=sys.stderr)
+        except:
+            traceback.print_exc()
 
         return {'qId': q['qId'],
                 'relPaths': relpaths}
