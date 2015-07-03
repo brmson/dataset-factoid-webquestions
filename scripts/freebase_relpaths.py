@@ -62,7 +62,10 @@ class QuestionRelPathFinder:
         # print(sparql_rel_query)
         self.sparql.setQuery(sparql_rel_query)
         results = self.sparql.query().convert()
-        return [[r['rel']['value']] for r in results['results']['bindings']]
+        rels = [r['rel']['value'] for r in results['results']['bindings']]
+        # PREFIX : <http://rdf.freebase.com/ns/>
+        rel_labels = [rel.replace('http://rdf.freebase.com/ns/', ':') for rel in rels]
+        return [[rl] for rl in rel_labels]
 
 
     def __call__(self, q):
