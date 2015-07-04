@@ -53,7 +53,7 @@ class QuestionRelPathFinder:
     def sparql_filter(self, labels):
         """ generate sparql WHERE{} sub-query that keeps just the values in labels """
 
-        value_filter = ['STR(LCASE(?value)) = "' + l.lower() + '"' for l in labels]
+        value_filter = ['STRLANG("' + l.lower() + '", "en")' for l in labels]
         sparql_filter = '''
                     OPTIONAL {
                       FILTER(ISURI(?val))
@@ -63,7 +63,7 @@ class QuestionRelPathFinder:
                     BIND(IF(BOUND(?vallabel), ?vallabel, ?val) AS ?value)
 
                     FILTER(ISLITERAL(?value))
-                    FILTER(''' + ' || '.join(value_filter) + ''')
+                    FILTER(LCASE(?value) IN (''' + ', '.join(value_filter) + '''))
             '''
         return sparql_filter
 
