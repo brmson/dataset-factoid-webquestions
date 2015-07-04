@@ -40,36 +40,48 @@ class QuestionRelPathFinder:
         results = self.sparql.query().convert()
         return [r['concept']['value'] for r in results['results']['bindings']][0]
 
-    def concept_rels_match(self, mid, labels):
-        """ list all relations of a given concept whose label or string value
-        is present in the given set of labels """
+    def count_paths(self, paths):
+        """ given a sequence of raw paths, produce a nice counted set """
+
+        # PREFIX : <http://rdf.freebase.com/ns/>
+        path_labels = [tuple([rel.replace('http://rdf.freebase.com/ns/', ':') for rel in path]) for path in paths]
+
+        pl_counter = Counter(path_labels)
+        pl_set = sorted([(pl, c) for pl, c in pl_counter.items()], key=itemgetter(1), reverse=True)
+        return pl_set
+
+    def sparql_filter(self, labels):
+        """ generate sparql WHERE{} sub-query that keeps just the values in labels """
 
         value_filter = ['STR(LCASE(?value)) = "' + l.lower() + '"' for l in labels]
-
-        sparql_rel_query = '''
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-                SELECT ?rel WHERE {
-                    <''' + mid + '''> ?rel ?val .
-
+        sparql_filter = '''
                     OPTIONAL {
+                      FILTER(ISURI(?val))
                       ?val rdfs:label ?vallabel .
                       FILTER(LANGMATCHES(LANG(?vallabel), \"en\"))
                     }
                     BIND(IF(BOUND(?vallabel), ?vallabel, ?val) AS ?value)
 
+                    FILTER(ISLITERAL(?value))
                     FILTER(''' + ' || '.join(value_filter) + ''')
+            '''
+        return sparql_filter
+
+    def concept_rels_match(self, mid, labels):
+        """ list all relations of a given concept whose label or string value
+        is present in the given set of labels """
+        sparql_rel_query = '''
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+                SELECT ?rel WHERE {
+                    <''' + mid + '''> ?rel ?val .
+                    ''' + self.sparql_filter(labels) + '''
                 }
             '''
         # print(sparql_rel_query)
         self.sparql.setQuery(sparql_rel_query)
         results = self.sparql.query().convert()
-        rels = [r['rel']['value'] for r in results['results']['bindings']]
-        # PREFIX : <http://rdf.freebase.com/ns/>
-        rel_labels = [rel.replace('http://rdf.freebase.com/ns/', ':') for rel in rels]
-        rl_counter = Counter(rel_labels)
-        rl_set = sorted([(rl, c) for rl, c in rl_counter.items()], key=itemgetter(1), reverse=True)
-        return rl_set
+        return self.count_paths([[r['rel']['value']] for r in results['results']['bindings']])
 
     def __call__(self, q):
         try:
