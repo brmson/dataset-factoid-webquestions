@@ -1,3 +1,4 @@
+[
  {"qId": "wqr000001", "answers": ["Padm\u00e9 Amidala"], "qText": "what character did natalie portman play in star wars?"},
  {"qId": "wqr000005", "answers": ["Denethor II"], "qText": "what character did john noble play in lord of the rings?"},
  {"qId": "wqr000025", "answers": ["Abduction", "Eclipse", "Valentine's Day", "The Twilight Saga: Breaking Dawn - Part 1", "New Moon"], "qText": "what movies does taylor lautner play in?"},
@@ -256,4 +257,5 @@
  {"qId": "wqr003702", "answers": ["Britt McKillip", "Kristen Wiig"], "qText": "who voices lola bunny in looney tunes?"},
  {"qId": "wqr003706", "answers": ["David Wenham"], "qText": "who plays faramir in lord of the rings?"},
  {"qId": "wqr003738", "answers": ["American Crude", "Air Buddies", "A Crush on You", "Brother Bear", "Back in Business", "A Night at the Roxbury", "Breakfast of Champions", "Bulworth", "Armageddon", "Brother Bear 2"], "qText": "what films did michael clarke duncan star in?"},
- {"qId": "wqr003767", "answers": ["New Moon", "Eclipse", "The Runaways", "Into the Wild", "Adventureland", "Twilight"], "qText": "what movies did kristen stewart act in?"},
+ {"qId": "wqr003767", "answers": ["New Moon", "Eclipse", "The Runaways", "Into the Wild", "Adventureland", "Twilight"], "qText": "what movies did kristen stewart act in?"}
+]

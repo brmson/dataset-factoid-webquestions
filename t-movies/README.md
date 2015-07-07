@@ -7,10 +7,13 @@ knowledge base in a narrow domain.  Here, we choose the "movies" domain,
 meant to be answerable using IMDB based data.
 
 	for s in devtest val trainmodel test; do
+		{ echo '[';
 		cat main/$s.json |
 			egrep 'qText.*(play|star[^t]|voice|movie|\bact)' |
-			egrep -v 'play[^ ]* (for|4)\b|position|playoff|soccer|music|sport|ball|guitar|tennis' >\
-			t-movies/$s.json
+			egrep -v 'play[^ ]* (for|4)\b|position|playoff|soccer|music|sport|ball|guitar|tennis'
+		  echo ']'
+		  # the crazy thing below strips the trailing comma; json is silly
+		} | tac | sed -e '2s/,$//' | tac > t-movies/$s.json
 	done
 
 The dataset is currently rather noisy and mixed with sports questions.

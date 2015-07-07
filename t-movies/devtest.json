@@ -1,3 +1,4 @@
+[
  {"qId": "wqr000120", "answers": ["Mila Kunis"], "qText": "who plays meg in family guy?"},
  {"qId": "wqr000140", "answers": ["University of Phoenix Stadium"], "qText": "what stadium did the chicago cardinals play in?"},
  {"qId": "wqr000580", "answers": ["New Moon", "He's a Bully, Charlie Brown", "Eclipse", "Cheaper by the Dozen 2", "Incarceron", "The Adventures of Sharkboy and Lavagirl", "Dear Eleanor", "Abduction", "Shadow Fury", "Field of Dreams 2: Lockout"], "qText": "what movies has taylor lautner?"},
@@ -17,3 +18,4 @@
  {"qId": "wqr003400", "answers": ["Seth MacFarlane"], "qText": "who plays stewie griffin on family guy?"},
  {"qId": "wqr003500", "answers": ["Matthew Broderick"], "qText": "who was the voice of simba?"},
  {"qId": "wqr003760", "answers": ["In the Land of Blood and Honey"], "qText": "what movie is angelina jolie directing?"}
+]
