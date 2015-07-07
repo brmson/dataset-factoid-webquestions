@@ -20,7 +20,7 @@ of the CC-BY 4.0 licence.
   * ``d-freebase/`` has extra Freebase-specific data.
   * ``d-freebase-rp/`` has extra custom-computed Freebase relation paths.
   * ``d-nlp/`` has extra data from NLP analysis of the question texts.  (TODO)
-  * ``t-movies/`` has question sub-splits pertaining to the movies topic.  (TODO)
+  * ``t-movies/`` has question sub-splits pertaining to the movies topic.
 
 Splits
 ------
