@@ -8,16 +8,18 @@
 # Example:
 #   mkdir d-freebase-rp
 #   for split in devtest val trainmodel test; do echo $split; ./freebase_relpaths_g.py $split $googleapikey; done
+#
+# If googleapikey is not passed, instead the script tries to read existing
+# JSON freebase data dumps from the directory fbconcepts/ .
 
 from __future__ import print_function
 
-from collections import Counter
+from collections import Counter, OrderedDict
 import datalib
 from multiprocessing import Pool
 import json
 from operator import itemgetter
 import sys
-import time
 from urllib.request import urlopen
 
 
@@ -34,14 +36,19 @@ def walk_node(node, pathprefix, labels):
 
 def get_question_rp(q):
     url = 'https://www.googleapis.com/freebase/v1/topic/en/' + q['freebaseKey']
-    print(url)
-    #time.sleep(1)
-    global apikey
-    urlresp = urlopen(url + '?key=' + apikey)
-    resp = json.loads(urlresp.readall().decode('utf-8'))
 
-    with open('x/' + q['freebaseKey'] + '.json', 'w') as f:
-        print(json.dumps(resp, indent=4), file=f)
+    global apikey
+    if apikey:
+        print(url)
+        urlresp = urlopen(url + '?key=' + apikey)
+        resp = json.loads(urlresp.readall().decode('utf-8'))
+
+        with open('fbconcepts/' + q['freebaseKey'] + '.json', 'w') as f:
+            print(json.dumps(resp, indent=4), file=f)
+
+    else:
+        with open('fbconcepts/' + q['freebaseKey'] + '.json', 'r') as f:
+            resp = json.load(f)
 
     path_labels = walk_node(resp, [], set(q['answers']))
     pl_counter = Counter(path_labels)
@@ -53,8 +60,9 @@ def get_question_rp(q):
 
 
 if __name__ == "__main__":
+    split = sys.argv[1]
     global apikey
-    split, apikey = sys.argv[1:]
+    apikey = sys.argv[2] if len(sys.argv) > 2 else None
     data = datalib.load_multi_data(split, ['main', 'd-freebase'])
 
     # XXX: We would like to write the JSON file as we go, but we need
