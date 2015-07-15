@@ -49,8 +49,7 @@ def get_question_rp(q):
 
     print(url, pl_set)
 
-    return {'qId': q['qId'],
-            'relPaths': pl_set}
+    return OrderedDict([('qId', q['qId']), ('relPaths', pl_set)])
 
 
 if __name__ == "__main__":
