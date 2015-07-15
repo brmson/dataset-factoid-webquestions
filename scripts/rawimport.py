@@ -20,8 +20,10 @@ def targetsToAnswers(target):
     """ Convert raw's targetValue lambda-form to a plain list of answer strings. """
     # (list (description "Jazmyn Bieber") (description "Jaxon Bieber"))
     target = re.sub(r'^\(list |\)$', '', target)
-    for answer in re.findall(r'\(description "?([^)]*?)"?\) *', target):
-        yield answer
+    for answers in re.findall(r'\(description (?:"([^"]+?)"|([^)]+?))\) *', target):
+        for answer in answers:
+            if answer:
+                yield answer
 
 
 def questions_pproc(questions, ch):
