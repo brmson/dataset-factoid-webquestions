@@ -9,6 +9,7 @@ from __future__ import print_function
 
 import io
 import json
+import re
 import sys
 
 
@@ -20,6 +21,7 @@ if __name__ == "__main__":
 
     with io.open('%s/%s.tsv' % (outdirname, split), 'w', encoding='utf8') as f:
         for q in data:
-            ansregex = '|'.join(q['answers'])
+            re_answers = [re.escape(ans).replace('\\ ', ' ').replace('\\/', '/') for ans in q['answers']]
+            ansregex = '|'.join(re_answers)
             qcols = [q['qId'], 'factoid', q['qText'], ansregex]
             print('\t'.join(qcols), file=f)
