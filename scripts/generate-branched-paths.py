@@ -34,6 +34,42 @@ def save_json(data, f):
         print(' ' + json.dumps(q) + e, file=f)
     print(']', file=f)
 
+def json_array_to_map(array, key):
+    res = {}
+    for line in array:
+        res[line[key]] = line
+    return res 
+
+def find_branch_of_path(key, relpath_map, concept_paths):
+    paths = list(set([tuple(path[0]) for path in relpath_map[key]['relPaths']]))
+    concept_path = list(set(concept_paths))
+    new_paths = []
+    for p in paths:        
+        if (len(p) < 2):
+            continue
+        for path in concept_path:            
+            if len(path) < 2:
+                continue
+            flag = False
+            for node in path:
+                if node in p:
+                    flag = True            
+            if flag:                 
+                new_paths.append(path) 
+    return new_paths  
+
+def merge_paths(key, relpaths_map, dataset_map, new_paths):
+    line = relpaths_map[key]
+    line2 = dataset_map[key]
+    line['LAT'] = line2['LAT']
+    line['SV'] = line2['SV']
+    for new in new_paths:
+        for i, p in enumerate(line['relPaths']):
+            if new[0] in p[0]:  
+                line['relPaths'][i][0].append(new[1])
+    return line
+
+
 with open(sys.argv[2]) as f:
     dataset = json.load(f)
     
@@ -46,49 +82,25 @@ if (len(sys.argv) > 4):
 else:
     relPaths = dataset
 
+relpath_map = json_array_to_map(relPaths, 'qId')
+dataset_map = json_array_to_map(dataset, 'qId')
 
-concept_paths = dict()
+print ("[")
 for i, line in enumerate(dataset):
     id = line['qId']
     concepts = [key['concept'] for key in keys[i]['freebaseKey']]
-    # print (concepts)
     key_list = [val for sublist in [key['key'] for key in keys[i]['freebaseKey']] for val in sublist]
-    concept_paths[id] = [] 
+    concept_paths = [] 
     for k in key_list:
-        # print (k)
         url = 'https://www.googleapis.com/freebase/v1/topic/en/' + k
         urlresp = urlopen(url + '?key=' + apikey)
         resp = json.loads(urlresp.read().decode('utf-8'))
-        concept_paths[id].extend(walk_node(resp, [], concepts))
-    concept_paths[id] = list(set(concept_paths[id]))  
-
-new_paths = {}
-for line in relPaths:
-    key = line['qId']
-    paths = list(set([tuple(path[0]) for path in line['relPaths']]))
-    concept_path = list(set(concept_paths[key]))
-    for p in paths:        
-        if (len(p) < 2):
-            continue
-        for path in concept_path:            
-            if len(path) < 2:
-                continue
-            flag = False
-            for node in path:
-                if node in p:
-                    flag = True            
-            if flag:                 
-                new_paths[key] = path
-   
-
-for line in relPaths:
-    try:
-        new = new_paths[line['qId']]
-    except KeyError:
-        continue
-    for i, p in enumerate(line['relPaths']):
-        if new[0] in p[0]:  
-            line['relPaths'][i][0].append(new[1])
-
-    
-save_json(relPaths, sys.stdout)
+        concept_paths.extend(walk_node(resp, [], concepts))
+    concept_paths = list(set(concept_paths))  
+    new = find_branch_of_path(id, relpath_map, concept_paths)
+    merged = merge_paths(id, relpath_map, dataset_map, new)
+    if (i+1 != len(dataset)):
+        print(json.dumps(merged) + ",")
+    else:
+        print(json.dumps(merged))
+print("]")
