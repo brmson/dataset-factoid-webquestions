@@ -13,6 +13,7 @@
 from __future__ import print_function
 import sys, json
 from urllib2 import urlopen
+import copy
 
 apikey = sys.argv[1]
 
@@ -65,8 +66,14 @@ def merge_paths(key, relpaths_map, dataset_map, new_paths):
     line['SV'] = line2['SV']
     for new in new_paths:
         for i, p in enumerate(line['relPaths']):
-            if new[0] in p[0]:  
-                line['relPaths'][i][0].append(new[1])
+            if new[0] in p[0]: 
+                if (len(line['relPaths'][i][0]) == 2):
+                    line['relPaths'][i][0].append(new[1])
+                elif (len(line['relPaths'][i][0]) == 3):
+                    tmp = copy.deepcopy(line['relPaths'][i])
+                    if (tmp[0][2] != new[1]):
+                        tmp[0][2] = new[1]
+                        line['relPaths'].append(tmp)
     return line
 
 
