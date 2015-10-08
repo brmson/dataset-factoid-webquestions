@@ -26,6 +26,12 @@ def walk_node(node, pathprefix, labels):
                 relpaths += walk_node(value, pathprefix + [name], labels)
     return relpaths
 
+def remove_duplicate_paths(array):
+    tmp = [(tuple(x[0]), x[1]) for x in array]
+    tmp = list(set(tmp))
+    res = [[list(x[0]), x[1]] for x in tmp]
+    return res
+
 def save_json(data, f):
     """ save data in a given file as json, one line per data item """
     print('[', file=f)
@@ -70,6 +76,7 @@ def merge_paths(key, relpaths_map, new_paths):
                     if (tmp[0][2] != new[1]):
                         tmp[0][2] = new[1]
                         line['relPaths'].append(tmp)
+    line['relPaths'] = remove_duplicit_paths(line['relPaths'])
     return line
 
     
