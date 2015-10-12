@@ -38,17 +38,20 @@ def get_mid_rp(q, mid):
     url = 'https://www.googleapis.com/freebase/v1/topic/m/' + mid
 
     global apikey
-    if apikey:
-        print(url)
-        urlresp = urlopen(url + '?key=' + apikey)
-        resp = json.loads(urlresp.readall().decode('utf-8'))
-
-        with open('fbconcepts/m.' + mid + '.json', 'w') as f:
-            print(json.dumps(resp, indent=4), file=f)
-
-    else:
+    try:
         with open('fbconcepts/m.' + mid + '.json', 'r') as f:
             resp = json.load(f)
+    except FileNotFoundError as e:
+        if apikey:
+            # Download the data, not cached locally yet
+            print(url)
+            urlresp = urlopen(url + '?key=' + apikey)
+            resp = json.loads(urlresp.readall().decode('utf-8'))
+
+            with open('fbconcepts/m.' + mid + '.json', 'w') as f:
+                print(json.dumps(resp, indent=4), file=f)
+        else:
+            raise e
 
     path_labels = walk_node(resp, [], set(q['answers']))
     return path_labels
