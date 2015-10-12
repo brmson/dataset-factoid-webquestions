@@ -32,14 +32,6 @@ def remove_duplicate_paths(array):
     res = [[list(x[0]), x[1]] for x in tmp]
     return res
 
-def save_json(data, f):
-    """ save data in a given file as json, one line per data item """
-    print('[', file=f)
-    for q in data:
-        e = ',' if q != data[-1] else ''
-        print(' ' + json.dumps(q) + e, file=f)
-    print(']', file=f)
-
 def json_array_to_map(array, key):
     res = {}
     for line in array:
@@ -116,7 +108,7 @@ for i, line in enumerate(keys):
     new = find_branch_of_path(id, relpath_map, concept_paths)
     merged = merge_paths(id, relpath_map, new)
     if (i+1 != len(keys)):
-        print(json.dumps(merged) + ",")
+        print(json.dumps(merged, sort_keys=True) + ",")
     else:
-        print(json.dumps(merged))
+        print(json.dumps(merged, sort_keys=True))
 print("]")

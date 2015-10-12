@@ -35,5 +35,5 @@ def save_json(data, f):
     print('[', file=f)
     for q in data:
         e = ',' if q != data[-1] else ''
-        print(' ' + json.dumps(q) + e, file=f)
+        print(' ' + json.dumps(q, sort_keys=True) + e, file=f)
     print(']', file=f)

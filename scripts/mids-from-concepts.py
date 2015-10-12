@@ -47,7 +47,7 @@ with open(sys.argv[1]) as f:
             res_line['freebaseMids'].append(pair)
         # print (json.dumps(res_line))
         if (i+1 != len(dump)):
-            print(json.dumps(res_line) + ",")
+            print(json.dumps(res_line, sort_keys=True) + ",")
         else:
-            print (json.dumps(res_line))
+            print(json.dumps(res_line, sort_keys=True))
 print("]")
