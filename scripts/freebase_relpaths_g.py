@@ -65,8 +65,10 @@ def get_question_rp(q):
         path_labels += get_mid_rp(q, mid)
 
     # Count how many times each path occurs, sort by frequency
+    # (to preserve run-by-run stability, secondary sort alphabetically)
     pl_counter = Counter(path_labels)
-    pl_set = sorted([(pl, c) for pl, c in pl_counter.items()], key=itemgetter(1), reverse=True)
+    pl_tuples = [(pl, c) for pl, c in pl_counter.items()]
+    pl_set = sorted(sorted(pl_tuples, key=itemgetter(0)), key=itemgetter(1), reverse=True)
 
     return OrderedDict([('qId', q['qId']), ('relPaths', pl_set)])
 
