@@ -5,6 +5,6 @@ The mids of each concept are generated using ``scripts/mids-from-concepts.py`` f
 
 	python mids-from-concepts.py d-dump/<split>.json > d-freebase-mids/<split>.json
 
-Files contain array of json objects each containing qId and freebaseMids array. The freebaseMids array contains objects with fileds
+Files contain array of json objects each containing qId and freebaseMids array. The freebaseMids array contains objects with fields
 concept and mid.
 
