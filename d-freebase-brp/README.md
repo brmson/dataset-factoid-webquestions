@@ -19,7 +19,7 @@ some other concept.
 
 This data has been generated from the Freebase Google API using following command:
 
-	python generate-branched-paths.py d-freebase-mids/<split>.json d-freebase-rp/<split>.json [apikey] > d-freebase-brp/<split>.json
+	python scripts/freebase_branched_relpaths_g.py d-freebase-mids/<split>.json d-freebase-rp/<split>.json [apikey] > d-freebase-brp/<split>.json
 
 Apikey is the key for google freebase api and can be obtained here: https://console.developers.google.com/
 The freebase response is stored into fbconcepts directory into the file named <mid>.json.
