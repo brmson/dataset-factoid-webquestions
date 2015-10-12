@@ -34,8 +34,8 @@ def walk_node(node, pathprefix, labels):
     return relpaths
 
 
-def get_question_rp(q):
-    url = 'https://www.googleapis.com/freebase/v1/topic/en/' + q['freebaseKey']
+def get_mid_rp(q, mid):
+    url = 'https://www.googleapis.com/freebase/v1/topic/m/' + mid
 
     global apikey
     if apikey:
@@ -43,18 +43,27 @@ def get_question_rp(q):
         urlresp = urlopen(url + '?key=' + apikey)
         resp = json.loads(urlresp.readall().decode('utf-8'))
 
-        with open('fbconcepts/' + q['freebaseKey'] + '.json', 'w') as f:
+        with open('fbconcepts/m.' + mid + '.json', 'w') as f:
             print(json.dumps(resp, indent=4), file=f)
 
     else:
-        with open('fbconcepts/' + q['freebaseKey'] + '.json', 'r') as f:
+        with open('fbconcepts/m.' + mid + '.json', 'r') as f:
             resp = json.load(f)
 
     path_labels = walk_node(resp, [], set(q['answers']))
+    return path_labels
+
+
+def get_question_rp(q):
+    print('>> %s %s' % (q['qId'], q['qText']))
+    mids = [c['mid'].split('.')[1] for c in q['freebaseMids'] if c['mid'] != '']
+    path_labels = []
+    for mid in mids:
+        path_labels += get_mid_rp(q, mid)
+
+    # Count how many times each path occurs, sort by frequency
     pl_counter = Counter(path_labels)
     pl_set = sorted([(pl, c) for pl, c in pl_counter.items()], key=itemgetter(1), reverse=True)
-
-    print(url, pl_set)
 
     return OrderedDict([('qId', q['qId']), ('relPaths', pl_set)])
 
@@ -63,7 +72,7 @@ if __name__ == "__main__":
     split = sys.argv[1]
     global apikey
     apikey = sys.argv[2] if len(sys.argv) > 2 else None
-    data = datalib.load_multi_data(split, ['main', 'd-freebase'])
+    data = datalib.load_multi_data(split, ['main', 'd-freebase-mids'])
 
     # XXX: We would like to write the JSON file as we go, but we need
     # to test for last element in save_json() and things would just
