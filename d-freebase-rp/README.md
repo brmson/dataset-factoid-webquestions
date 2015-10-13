@@ -20,7 +20,7 @@ have a fast enough triple store.
 	googleapikey=....
 	for split in devtest val trainmodel test; do
 		echo $split
-		scripts/freebase_relpaths_g.py $split $googleapikey
+		scripts/freebase_relpaths_g.py $split rp $googleapikey
 	done
 
 (see also the script docs).
