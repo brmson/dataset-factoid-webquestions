@@ -68,7 +68,7 @@ def merge_paths(key, relpaths_map, new_paths):
                     if (tmp[0][2] != new[1]):
                         tmp[0][2] = new[1]
                         line['relPaths'].append(tmp)
-    line['relPaths'] = remove_duplicit_paths(line['relPaths'])
+    line['relPaths'] = remove_duplicate_paths(line['relPaths'])
     return line
 
     
