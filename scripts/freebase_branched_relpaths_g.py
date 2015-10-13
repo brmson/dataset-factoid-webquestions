@@ -108,7 +108,7 @@ for i, line in enumerate(keys):
     new = find_branch_of_path(id, relpath_map, concept_paths)
     merged = merge_paths(id, relpath_map, new)
     if (i+1 != len(keys)):
-        print(json.dumps(merged, sort_keys=True) + ",")
+        print(' ' + json.dumps(merged, sort_keys=True) + ",")
     else:
-        print(json.dumps(merged, sort_keys=True))
+        print(' ' + json.dumps(merged, sort_keys=True))
 print("]")
