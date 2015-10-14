@@ -2,6 +2,11 @@
 #
 # Find Freebase relation path between concept URL and answer for each question
 #
+# XXX: THIS SCRIPT IS OUT OF DATE.  Branched paths and fuzzy matching and
+# possibly other things are not implemented here as we primarily use the _g
+# script at this point.  If you need to use this one instead, you should think
+# about porting these changes.
+#
 # Walk the RDF graph with Freebase data up to degree N trying to match
 # one of the answers, storing all relations that do lead to one.
 #
