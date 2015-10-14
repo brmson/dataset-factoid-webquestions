@@ -28,16 +28,29 @@ import sys
 from urllib.request import urlopen
 
 
-def walk_node(node, pathprefix, pathsuffixes, labels, other_mids):
+def cMid(c):
+    """ return mid of concept as stored in freebaseMids json """
+    return c['mid'].split('.')[1] if c['mid'] != '' else None
+
+
+def walk_node(node, pathprefix, pathsuffixes, labels, other_c):
     relpaths = []
 
     pathsuffixes = list(pathsuffixes)  # local copy
-    for name, val in node['property'].items():
-        for value in val['values']:
-            if other_mids is not None and pathprefix and 'id' in value and value['id'][3:] in other_mids:
-                # other_mids not None? try branching out in the middle node
-                # id[3:] -> split leading /m/ in the mid
-                pathsuffixes += [name]
+    if other_c is not None and pathprefix:
+        # Try branching out in the middle node.
+        for name, val in node['property'].items():
+            for value in val['values']:
+                if 'id' in value and value['id'][3:] in [cMid(c) for c in other_c]:
+                    # First, go for an exact match.
+                    # id[3:] -> split leading /m/ in the mid
+                    pathsuffixes += [name + '!']
+
+                else:
+                    # Substring label match.
+                    for c in other_c:
+                        if c['concept'] in value['text']:
+                            pathsuffixes += [name + '~']
 
     for name, val in node['property'].items():
         for value in val['values']:
@@ -50,12 +63,12 @@ def walk_node(node, pathprefix, pathsuffixes, labels, other_mids):
     for name, val in node['property'].items():
         for value in val['values']:
             if 'property' in value:
-                relpaths += walk_node(value, pathprefix + [name], pathsuffixes, labels, other_mids)
+                relpaths += walk_node(value, pathprefix + [name], pathsuffixes, labels, other_c)
 
     return relpaths
 
 
-def get_mid_rp(q, mid, other_mids):
+def get_mid_rp(q, mid, other_c):
     url = 'https://www.googleapis.com/freebase/v1/topic/m/' + mid
 
     global apikey
@@ -74,17 +87,24 @@ def get_mid_rp(q, mid, other_mids):
         else:
             raise e
 
-    path_labels = walk_node(resp, [], [], set(q['answers']), set(other_mids) if other_mids is not None else None)
+    path_labels = walk_node(resp, [], [], set(q['answers']), other_c)
     return path_labels
 
 
 def get_question_rp(q):
     print('>> %s %s' % (q['qId'], q['qText']))
-    mids = [c['mid'].split('.')[1] for c in q['freebaseMids'] if c['mid'] != '']
     path_labels = []
-    for mid in mids:
+    for c in q['freebaseMids']:
+        mid = cMid(c)
+        if mid is None:
+            continue
+
         global mode
-        path_labels += get_mid_rp(q, mid, [m for m in mids if m != mid] if mode == 'brp' else None)
+        if mode == 'brp':
+            other_c = [cc for cc in q['freebaseMids'] if cc != c]
+        else:
+            other_c = None
+        path_labels += get_mid_rp(q, mid, other_c)
 
     # Count how many times each path occurs, sort by frequency
     # (to preserve run-by-run stability, secondary sort alphabetically)

@@ -13,9 +13,12 @@ array-stored tuple of
 
 with **path** being a list of strings with relation names and
 **nMatches** being number of answer matches within this path.
+
 The first two relation represents path from key concept to answer
 and first and third relation represents path from key concept to
-some other concept.
+some other in-question concept.
+The third relation is suffixed by ! to denote a mid concept match
+or ~ to denote a substring label match.
 
 This data has been generated from the Freebase Google API using following command:
 
