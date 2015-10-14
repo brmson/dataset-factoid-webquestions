@@ -17,8 +17,9 @@ with **path** being a list of strings with relation names and
 The first two relation represents path from key concept to answer
 and first and third relation represents path from key concept to
 some other in-question concept.
-The third relation is suffixed by ! to denote a mid concept match
-or ~ to denote a substring label match.
+The third relation is suffixed by ! to denote a mid concept match,
+~ to denote a substring label match, or % to denote a substring label
+match of a plain YodaQA-produced clue rather than a concept.
 
 This data has been generated from the Freebase Google API using following command:
 

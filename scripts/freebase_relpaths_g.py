@@ -50,7 +50,12 @@ def walk_node(node, pathprefix, pathsuffixes, labels, other_c):
                     # Substring label match.
                     for c in other_c:
                         if c['concept'] in value['text']:
-                            pathsuffixes += [name + '~']
+                            if c['mid'] is not None:
+                                # concept label match
+                                pathsuffixes += [name + '~']
+                            else:
+                                # plain clue label match
+                                pathsuffixes += [name + '%']
 
     for name, val in node['property'].items():
         for value in val['values']:
@@ -102,6 +107,8 @@ def get_question_rp(q):
         global mode
         if mode == 'brp':
             other_c = [cc for cc in q['freebaseMids'] if cc != c]
+            # Also try matching texts of plain clues
+            other_c += [{'concept': cc['label'], 'mid': None} for cc in q['Clue']]
         else:
             other_c = None
         path_labels += get_mid_rp(q, mid, other_c)
@@ -123,7 +130,7 @@ if __name__ == "__main__":
         raise ValueError('unknown mode ' + mode)
     global apikey
     apikey = sys.argv[3] if len(sys.argv) > 3 else None
-    data = datalib.load_multi_data(split, ['main', 'd-freebase-mids'])
+    data = datalib.load_multi_data(split, ['main', 'd-freebase-mids', 'd-dump'])
 
     # XXX: We would like to write the JSON file as we go, but we need
     # to test for last element in save_json() and things would just
