@@ -30,7 +30,7 @@ from urllib.request import urlopen
 
 def cMid(c):
     """ return mid of concept as stored in freebaseMids json """
-    return c['mid'].split('.')[1] if c['mid'] != '' else None
+    return c['mid'].split('.')[1] if c['mid'] is not None and c['mid'] != '' else None
 
 
 def walk_node(node, pathprefix, pathsuffixes, labels, other_c):
