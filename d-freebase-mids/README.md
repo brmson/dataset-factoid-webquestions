@@ -4,7 +4,7 @@ Freebase MIDs of concepts
 The mids of each concept (from d-dump concepts plus d-freebase freebaseKey
 annotations) are generated using ``scripts/freebase_mids.py``:
 
-	for s in devtest test train val; do
+	for s in devtest test trainmodel val; do
 		echo $s
 		scripts/freebase_mids.py $s
 	done
