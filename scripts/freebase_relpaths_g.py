@@ -44,18 +44,13 @@ def walk_node(node, pathprefix, pathsuffixes, labels, other_c):
                 if 'id' in value and value['id'][3:] in [cMid(c) for c in other_c]:
                     # First, go for an exact match.
                     # id[3:] -> split leading /m/ in the mid
-                    pathsuffixes += [name + '!']
+                    pathsuffixes += [name]
 
                 else:
                     # Substring label match.
                     for c in other_c:
                         if c['concept'] in value['text']:
-                            if c['mid'] is not None:
-                                # concept label match
-                                pathsuffixes += [name + '~']
-                            else:
-                                # plain clue label match
-                                pathsuffixes += [name + '%']
+                            pathsuffixes += [name]
 
     for name, val in node['property'].items():
         for value in val['values']:
