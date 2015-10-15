@@ -1673,7 +1673,7 @@
  {"qId": "wqs001671", "relPaths": [[["/people/person/nationality"], 1], [["/people/person/place_of_birth"], 1]]},
  {"qId": "wqs001672", "relPaths": [[["/people/ethnicity/languages_spoken"], 1], [["/type/object/name"], 1]]},
  {"qId": "wqs001673", "relPaths": [[["/government/politician/party", "/government/political_party_tenure/party"], 2], [["/organization/organization_founder/organizations_founded"], 1]]},
- {"qId": "wqs001674", "relPaths": [[["/government/governmental_jurisdiction/governing_officials", "/government/government_position_held/office_holder"], 1]]},
+ {"qId": "wqs001674", "relPaths": [[["/government/governmental_jurisdiction/governing_officials", "/government/government_position_held/office_holder", "/government/government_position_held/basic_title"], 1]]},
  {"qId": "wqs001675", "relPaths": [[["/location/location/containedby"], 1]]},
  {"qId": "wqs001676", "relPaths": [[["/location/statistical_region/minimum_wage", "/measurement_unit/recurring_money_value/currency"], 10], [["/location/country/currency_used"], 1]]},
  {"qId": "wqs001677", "relPaths": [[["/people/person/place_of_birth"], 1]]},
