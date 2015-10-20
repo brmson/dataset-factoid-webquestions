@@ -30,10 +30,10 @@ def load_multi_data(split, dirnames):
     return data
 
 
-def save_json(data, f):
+def save_json(data, f, sort_keys=True):
     """ save data in a given file as json, one line per data item """
     print('[', file=f)
     for q in data:
         e = ',' if q != data[-1] else ''
-        print(' ' + json.dumps(q, sort_keys=True) + e, file=f)
+        print(' ' + json.dumps(q, sort_keys=sort_keys) + e, file=f)
     print(']', file=f)
