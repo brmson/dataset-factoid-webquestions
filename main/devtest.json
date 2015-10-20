@@ -187,5 +187,19 @@
  {"qId": "wqr003700", "answers": ["Parliamentary system", "Federation", "Constitutional monarchy", "Multi-party system"], "qText": "what kind of political system is canada?"},
  {"qId": "wqr003720", "answers": ["Elburg"], "qText": "what countries are included in the netherlands?"},
  {"qId": "wqr003740", "answers": ["Bituminous Coal Underground Mining", "Copper Ore and Nickel Ore Mining", "Automobile", "Pulp, Paper, and Paperboard Mills", "Wheat Farming", "Electric Power Generation", "Crude Petroleum and Natural Gas Extraction", "Iron Ore Mining", "Primary Aluminum Production", "Pharmaceutical and Medicine Manufacturing"], "qText": "what are the major imports and exports of canada?"},
- {"qId": "wqr003760", "answers": ["In the Land of Blood and Honey"], "qText": "what movie is angelina jolie directing?"}
+ {"qId": "wqr003760", "answers": ["In the Land of Blood and Honey"], "qText": "what movie is angelina jolie directing?"},
+ {"qId": "mfb000003", "answers": ["Christopher Nolan"], "qText": "Who directed batman dark knight"},
+ {"qId": "mfb000030", "answers": ["2008-06-23"], "qText": "when was wall-e released"},
+ {"qId": "mfb000057", "answers": ["Simon Kinberg"], "qText": "Who wrote the screenplay for the X-Men days of future past?"},
+ {"qId": "mfb000083", "answers": ["Francis Ford Coppola"], "qText": "Who directed The Godfather?"},
+ {"qId": "mfb000110", "answers": ["Jennifer Lee", "Chris Buck"], "qText": "who directed Frozen?"},
+ {"qId": "mfb000137", "answers": ["1999-09-10"], "qText": "when was Fight Club released"},
+ {"qId": "mfb000163", "answers": ["42"], "qText": "What is the answer to the Universe."},
+ {"qId": "mfb000190", "answers": ["Fictional Object"], "qText": "what is TARDIS?"},
+ {"qId": "mfb000217", "answers": ["Adam West", " Michael Keaton", "Christian Bale"], "qText": "Which actors played Batman"},
+ {"qId": "mfb000243", "answers": ["Alexis Bledel"], "qText": "Who played Rory in Gilmore Girls"},
+ {"qId": "mfb000270", "answers": ["Colin Ferguson", "Town sheriff"], "qText": "Who is Jack Carter in Eureka?"},
+ {"qId": "mfb000297", "answers": ["Return of the Jedi"], "qText": "What is the subtitle of Star Wars episode VI?"},
+ {"qId": "mfb000323", "answers": ["Harrison Ford"], "qText": "Which star who also starred in Star Wars played Deckard in Blade Runner?"},
+ {"qId": "mfb000350", "answers": ["Michael Caine", "Matthew McConaughey", "Matt Damon"], "qText": "who play in interstellar"}
 ]
