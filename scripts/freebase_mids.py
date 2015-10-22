@@ -87,10 +87,11 @@ if __name__ == "__main__":
             pair['mid'] = queryPageID(c['pageID'])
             res_line['freebaseMids'].append(pair)
 
-        print('%s (%s) key %s' % (q['qId'], q['qText'], q['freebaseKey']), file=sys.stderr)
-        keyPair = queryKey(q['freebaseKey'])
-        if keyPair['mid'] not in [p['mid'] for p in res_line['freebaseMids']]:
-            res_line['freebaseMids'].append(keyPair)
+        if 'freebaseKey' in q:
+            print('%s (%s) key %s' % (q['qId'], q['qText'], q['freebaseKey']), file=sys.stderr)
+            keyPair = queryKey(q['freebaseKey'])
+            if keyPair['mid'] not in [p['mid'] for p in res_line['freebaseMids']]:
+                res_line['freebaseMids'].append(keyPair)
 
         # print (json.dumps(res_line))
         qmids.append(res_line)
