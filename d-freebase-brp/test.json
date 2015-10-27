@@ -1630,7 +1630,7 @@
  {"qId": "wqs001536", "relPaths": [[["/people/person/education", "/education/education/institution"], 1]]},
  {"qId": "wqs001537", "relPaths": []},
  {"qId": "wqs001538", "relPaths": [[["/book/author/book_editions_published"], 1], [["/book/author/works_written"], 1]]},
- {"qId": "wqs001539", "relPaths": [[["/people/person/spouse_s", "/people/marriage/spouse", "/people/marriage/from"], 1], [["/people/person/spouse_s", "/people/marriage/spouse", "/people/marriage/to"], 1]]},
+ {"qId": "wqs001539", "relPaths": [[["/people/person/spouse_s", "/people/marriage/spouse", "/people/marriage/from"], 2], [["/people/person/spouse_s", "/people/marriage/spouse", "/people/marriage/to"], 2]]},
  {"qId": "wqs001540", "relPaths": [[["/people/person/spouse_s", "/people/marriage/spouse"], 1]]},
  {"qId": "wqs001541", "relPaths": [[["/music/artist/genre"], 2]]},
  {"qId": "wqs001542", "relPaths": [[["/people/person/education", "/education/education/institution"], 1]]},
