@@ -190,7 +190,7 @@
  {"qId": "wqr000149", "relPaths": [[["/book/book_subject/works"], 1]]},
  {"qId": "wqr000154", "relPaths": [[["/sports/sports_award_winner/awards", "/sports/sports_award/season"], 3]]},
  {"qId": "wqr000159", "relPaths": [[["/location/location/time_zones"], 1]]},
- {"qId": "wqr000164", "relPaths": [[["/people/deceased_person/place_of_death"], 1], [["/tv/tv_actor/starring_roles", "/tv/regular_tv_appearance/series"], 1]]},
+ {"qId": "wqr000164", "relPaths": [[["/people/deceased_person/place_of_death"], 1]]},
  {"qId": "wqr000169", "relPaths": [[["/military/military_person/service", "/military/military_service/military_force"], 10]]},
  {"qId": "wqr000174", "relPaths": [[["/people/person/education", "/education/education/institution"], 1]]},
  {"qId": "wqr000179", "relPaths": [[["/military/military_conflict/locations"], 2], [["/time/event/locations"], 2], [["/location/location/partially_contains"], 1], [["/location/location/partiallycontains", "/location/partial_containment_relationship/partially_contains"], 1]]},

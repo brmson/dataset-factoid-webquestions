@@ -41,7 +41,7 @@
  {"qId": "syn040166", "relPaths": []},
  {"qId": "wqr000000", "relPaths": [[["/people/person/sibling_s", "/people/sibling_relationship/sibling"], 2]]},
  {"qId": "wqr000020", "relPaths": []},
- {"qId": "wqr000040", "relPaths": [[["/people/person/children"], 2]]},
+ {"qId": "wqr000040", "relPaths": [[["/people/person/children"], 2], [["/tv/tv_program/regular_personal_appearances", "/tv/tv_regular_personal_appearance/person"], 1]]},
  {"qId": "wqr000060", "relPaths": [[["/language/human_language/countries_spoken_in"], 10], [["/location/statistical_region/places_exported_to", "/location/imports_and_exports/exported_to"], 2], [["/language/human_language/main_country"], 1], [["/type/object/name"], 1]]},
  {"qId": "wqr000080", "relPaths": [[["/influence/influence_node/influenced_by"], 9]]},
  {"qId": "wqr000100", "relPaths": []},
