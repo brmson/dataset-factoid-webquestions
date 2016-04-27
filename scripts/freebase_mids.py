@@ -85,6 +85,7 @@ if __name__ == "__main__":
             pair = {}
             pair['concept'] = c['fullLabel']
             pair['mid'] = queryPageID(c['pageID'])
+            pair['pageID'] = c['pageID']
             res_line['freebaseMids'].append(pair)
 
         if 'freebaseKey' in q:
