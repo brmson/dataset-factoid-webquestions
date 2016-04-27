@@ -46,6 +46,8 @@ done
 
 for s in devtest test trainmodel val; do
 	echo $s
-	scripts/make-propsel-dataset.py $replace $s $basedir $outdir/$s.csv
+	scripts/make-propsel-dataset.py $replace $s $basedir $outdir/$s_.csv
+	scripts/remove-multilabel-pairs.py $outdir/$s_.csv > $outdir/$s.csv
+	rm $outdir/$s_.csv
 done
 
