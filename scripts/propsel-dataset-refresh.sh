@@ -22,27 +22,16 @@ basedir=$(pwd)
 
 mkdir -p $basedir/d-relation-dump
 
-# if [ "$reldump" = "reldump=true" ]; then
-# 	cd "$yodaqa"
-# 	yodaqa_cid=$(git rev-parse --short HEAD)
-# 	for i in devtest test trainmodel val; do
-# 		./gradlew exploringPathDump -PexecArgs="$basedir/main/${i}.json $basedir/d-relation-dump/_${i}.json"
-# 		python data/ml/repair-json.py "$basedir/d-relation-dump/_${i}.json" > "$basedir/d-relation-dump/${i}.json"
-# 		rm "$basedir/d-relation-dump/_${i}.json"
-# 	done
-# 	cd "$basedir"
-# fi
+for s in devtest test trainmodel val; do
+	echo $s
+	scripts/freebase_relpaths_dump.py $s $googleapikey
+done
 
-# for s in devtest test trainmodel val; do
-# 	echo $s
-# 	scripts/freebase_relpaths_dump.py $s $googleapikey
-# done
-
-# for s in devtest test trainmodel val; do
-# 	echo $s
-# 	scripts/query_proplabels.py $s
-# 	rm d-relation-dump/${s}_.json
-# done
+for s in devtest test trainmodel val; do
+	echo $s
+	scripts/query_proplabels.py $s
+	rm d-relation-dump/${s}_.json
+done
 
 pfx=
 if [ "$replace" = 1 ]; then
