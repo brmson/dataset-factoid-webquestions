@@ -33,21 +33,27 @@ mkdir -p $basedir/d-relation-dump
 # 	cd "$basedir"
 # fi
 
-for s in devtest test trainmodel val; do
-	echo $s
-	scripts/freebase_relpaths_dump.py $s $googleapikey
-done
+# for s in devtest test trainmodel val; do
+# 	echo $s
+# 	scripts/freebase_relpaths_dump.py $s $googleapikey
+# done
+
+# for s in devtest test trainmodel val; do
+# 	echo $s
+# 	scripts/query_proplabels.py $s
+# 	rm d-relation-dump/${s}_.json
+# done
+
+pfx=
+if [ "$replace" = 1 ]; then
+	pfx=enttok-
+fi
 
 for s in devtest test trainmodel val; do
 	echo $s
-	scripts/query_proplabels.py $s
-	rm d-relation-dump/${s}_.json
+	scripts/make-propsel-dataset.py $replace $s $basedir $outdir/$pfx${s}_.csv
+	scripts/remove-multilabel-pairs.py $outdir/$pfx${s}_.csv > $outdir/$pfx$s.csv
+	rm $outdir/$pfx${s}_.csv
 done
 
-for s in devtest test trainmodel val; do
-	echo $s
-	scripts/make-propsel-dataset.py $replace $s $basedir $outdir/$s_.csv
-	scripts/remove-multilabel-pairs.py $outdir/$s_.csv > $outdir/$s.csv
-	rm $outdir/$s_.csv
-done
-
+tail -n +2 $outdir/${pfx}devtest.csv >>$outdir/${pfx}val.csv
