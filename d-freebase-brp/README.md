@@ -29,3 +29,9 @@ This data has been generated from the Freebase Google API using following comman
 Apikey is the key for google freebase api and can be obtained here: https://console.developers.google.com/
 The freebase response is stored into fbconcepts directory into the file named <mid>.json.
 If the apikey is not provided then the script tries to read existing JSON freebase data dumps from the directory fbconcepts/.
+
+N.B. as of May 4, the Freebase API accessible via the API key is not available anymore.
+The latest version of the fbconcepts/ directory, containing webquestions + moviesF
+concepts, is available at:
+
+	http://pasky.or.cz/dev/brmson/fbconcepts-2016-05-04.tar.gz
