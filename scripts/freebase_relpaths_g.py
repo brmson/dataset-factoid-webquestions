@@ -85,7 +85,9 @@ def get_mid_rp(q, mid, other_c):
             with open('fbconcepts/m.' + mid + '.json', 'w') as f:
                 print(json.dumps(resp, indent=4), file=f)
         else:
-            raise e
+            print("Warning!! Concept not found, skipping.")
+            return []
+            # raise e
 
     path_labels = walk_node(resp, [], [], set(q['answers']), other_c)
     return path_labels

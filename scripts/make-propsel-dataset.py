@@ -14,7 +14,7 @@ dataset_dir = sys.argv[3]
 out_file = sys.argv[4]
 
 all_paths_file = dataset_dir + "/d-relation-dump/" + split + ".json"
-gold_standard_file = dataset_dir + "/d-freebase-brp/" + split + ".json"
+gold_standard_file = dataset_dir + "/d-freebase-brp-reduced/" + split + ".json"
 main_file = dataset_dir + "/main/" + split + ".json"
 dump_file = dataset_dir + "/d-dump/" + split + ".json"
 mid_file = dataset_dir + "/d-freebase-mids/" + split + ".json"
@@ -60,7 +60,12 @@ for line in gold:
 
     qtext = main[line['qId']].lower()
     if (qtext[-1] != "?"):
-        qtext = qtext + "?"
+        if (qtext[-1] == ' '):
+            qtext = qtext + "?"
+        else:
+            qtext = qtext + " ?"
+    elif (qtext[-2] != ' '):
+        qtext = qtext[:-1] + " ?" 
     
     concepts = dump[line['qId']]
 
@@ -92,10 +97,17 @@ for line in gold:
         #         y = 0
         # except IndexError:
         #     y = 0
+        filtered = False
         if (path in gs_path_list):
             y = 1
         else:
             y = 0
+            for p in path:
+                if ('common.' in p or 'type.' in p):
+                    filtered = True
+                    break
+        if (filtered):
+            continue
         tokenized = [' '.join(word_tokenize(lab.lower())) for lab in path_labels]
         labels_csv = PROP_SEP.join(tokenized)
         try:

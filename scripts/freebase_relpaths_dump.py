@@ -28,6 +28,7 @@ def cMid(c):
 
 def is_filtered(property):
     filters = ['/type', '/common']
+    filters = []
     for f in filters:
         if property.startswith(f):
             return True
@@ -36,19 +37,21 @@ def is_filtered(property):
 def remove_duplicates(entity_paths):
     myset = set()
     res = []
+    global answers
+    if (answers == '1'):
+        return entity_paths 
     for ent_path in entity_paths:
         # print(ent_path['path'])
         if (ent_path['path'] not in myset):
             myset.add(ent_path['path'])
-            res.append(ent_path)
-            
+            res.append(ent_path)  
     return res
 
 
 
 def walk_node(node, ent_tops, ent_wits, pathprefix, pathsuffixes, other_c):
     relpaths = []
-
+    global answers
     pathsuffixes = list(pathsuffixes)  # local copy
     if other_c is not None and pathprefix:
         # Try branching out in the middle node.
@@ -72,11 +75,20 @@ def walk_node(node, ent_tops, ent_wits, pathprefix, pathsuffixes, other_c):
         if (is_filtered(name)):
                 continue
         for e, pathsuffix in zip(ent_wits, pathsuffixes):
-            relpaths.append({'entities': ent_tops + [e], 'path': tuple(pathprefix + [name, pathsuffix])})
+            if (answers == '1'):
+                relpaths.append({'entities': ent_tops + [e], 'path': tuple(pathprefix + [name, pathsuffix]), 'answers':[v['text'] for v in val['values']]})
+            else:
+                relpaths.append({'entities': ent_tops + [e], 'path': tuple(pathprefix + [name, pathsuffix])})
         if not pathsuffixes and ent_tops:
-            relpaths.append({'entities': ent_tops, 'path': tuple(pathprefix + [name])})
+            if (answers == '1'):
+                relpaths.append({'entities': ent_tops, 'path': tuple(pathprefix + [name]), 'answers':[v['text'] for v in val['values']]})
+            else:
+                relpaths.append({'entities': ent_tops, 'path': tuple(pathprefix + [name])})
         if not pathsuffixes and not ent_tops:
-            relpaths.append({'entities': [node['id']], 'path': tuple(pathprefix + [name])})
+            if (answers == '1'):
+                relpaths.append({'entities': [node['id']], 'path': tuple(pathprefix + [name]), 'answers':[v['text'] for v in val['values']]})
+            else:
+                relpaths.append({'entities': [node['id']], 'path': tuple(pathprefix + [name])})
 
     for name, val in node['property'].items():
         if (is_filtered(name)):
@@ -104,7 +116,9 @@ def get_mid_rp(q, mid, other_c):
             with open('fbconcepts/m.' + mid + '.json', 'w') as f:
                 print(json.dumps(resp, indent=4), file=f)
         else:
-            raise e
+            print("Warning!! Concept not found, skipping.")
+            return []
+            # raise e
 
     path_labels = walk_node(resp, [], [], [], [], other_c)
     return path_labels
@@ -139,7 +153,9 @@ if __name__ == "__main__":
     split = sys.argv[1]
     global mode
     global apikey
-    apikey = sys.argv[2] if len(sys.argv) > 2 else None
+    global answers
+    answers = sys.argv[2] if len(sys.argv) > 2 else None
+    apikey = sys.argv[3] if len(sys.argv) > 3 else None
     data = datalib.load_multi_data(split, ['main', 'd-freebase-mids', 'd-dump'])
 
     # XXX: We would like to write the JSON file as we go, but we need

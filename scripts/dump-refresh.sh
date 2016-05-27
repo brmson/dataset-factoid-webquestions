@@ -18,14 +18,14 @@ basedir=$(pwd)
 
 # Question dump
 
-cd "$yodaqa"
-yodaqa_cid=$(git rev-parse --short HEAD)
-for i in devtest test trainmodel val; do
-	./gradlew questionDump -PexecArgs="$basedir/main/${i}.json $basedir/d-dump/_${i}.json"
-	python data/ml/repair-json.py "$basedir/d-dump/_${i}.json" >"$basedir/d-dump/${i}.json"
-	rm "$basedir/d-dump/_${i}.json"
-done
-cd "$basedir"
+# cd "$yodaqa"
+# yodaqa_cid=$(git rev-parse --short HEAD)
+# for i in devtest test trainmodel val; do
+# 	./gradlew questionDump -PexecArgs="$basedir/main/${i}.json $basedir/d-dump/_${i}.json"
+# 	python data/ml/repair-json.py "$basedir/d-dump/_${i}.json" >"$basedir/d-dump/${i}.json"
+# 	rm "$basedir/d-dump/_${i}.json"
+# done
+# cd "$basedir"
 
 
 # Freebase MIDs of concepts

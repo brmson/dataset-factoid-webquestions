@@ -34,7 +34,10 @@ if __name__ == "__main__":
                     } ''' 
                     sparql.setQuery(sparql_query)
                     res = sparql.query().convert()
-                    proplabel = res['results']['bindings'][0]['proplabel']['value']
+                    try:
+                        proplabel = res['results']['bindings'][0]['proplabel']['value']
+                    except IndexError:
+                        proplabel = prop.split(".")[-1].replace("_", " ")
                     label_cache[prop] = proplabel
                 else:
                     proplabel = label_cache[prop]

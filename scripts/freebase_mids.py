@@ -54,8 +54,10 @@ SELECT ?topic ?label WHERE {
   ?topic rdfs:label ?label .
   FILTER( LANGMATCHES(LANG(?label), "en") )
 } '''
+    # print(sparql_query)
     sparql.setQuery(sparql_query)
     res = sparql.query().convert()
+    # print(res)
     s = set()
     retVal = []
     for r in res['results']['bindings']:
@@ -72,7 +74,7 @@ SELECT ?topic ?label WHERE {
 
 if __name__ == "__main__":
     split = sys.argv[1]
-    data = datalib.load_multi_data(split, ['main', 'd-dump', 'd-freebase'])
+    data = datalib.load_multi_data(split, ['main', 'd-freebase'])
 
     qmids = []
     for q in data.to_list():
@@ -80,13 +82,14 @@ if __name__ == "__main__":
         res_line['qId'] = q['qId']
         res_line['freebaseMids'] = []
 
-        for c in q['Concept']:
-            print('%s (%s) ? %s / %s' % (q['qId'], q['qText'], c['fullLabel'], c['pageID']), file=sys.stderr)
-            pair = {}
-            pair['concept'] = c['fullLabel']
-            pair['mid'] = queryPageID(c['pageID'])
-            pair['pageID'] = c['pageID']
-            res_line['freebaseMids'].append(pair)
+        if 'Concept' in q:
+            for c in q['Concept']:
+                print('%s (%s) ? %s / %s' % (q['qId'], q['qText'], c['fullLabel'], c['pageID']), file=sys.stderr)
+                pair = {}
+                pair['concept'] = c['fullLabel']
+                pair['mid'] = queryPageID(c['pageID'])
+                pair['pageID'] = c['pageID']
+                res_line['freebaseMids'].append(pair)
 
         if 'freebaseKey' in q:
             print('%s (%s) key %s' % (q['qId'], q['qText'], q['freebaseKey']), file=sys.stderr)

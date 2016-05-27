@@ -21,17 +21,19 @@ fi
 basedir=$(pwd)
 
 mkdir -p $basedir/d-relation-dump
+mkdir -p $basedir/d-relation-brp-reduced
 
-for s in devtest test trainmodel val; do
-	echo $s
-	scripts/freebase_relpaths_dump.py $s $googleapikey
-done
+# for s in devtest test trainmodel val; do
+# 	echo $s
+# 	scripts/freebase_relpaths_dump.py $s 0 $googleapikey
+# done
 
-for s in devtest test trainmodel val; do
-	echo $s
-	scripts/query_proplabels.py $s
-	rm d-relation-dump/${s}_.json
-done
+# for s in devtest test trainmodel val; do
+# 	echo $s
+# 	scripts/query_proplabels.py $s
+# 	# scripts/reduce_gs.py $s
+# 	rm d-relation-dump/${s}_.json
+# done
 
 pfx=
 if [ "$replace" = 1 ]; then
